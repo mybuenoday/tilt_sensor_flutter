@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,18 +32,32 @@ class SensorApp extends StatelessWidget {
     return Scaffold(
         body: Stack(// Stack은 children끼리 겹치기 가능
             children: [
-      Positioned(
-        left: centerX,
-        top: centerY,
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.yellowAccent,
-            shape: BoxShape.circle,
-          ),
-          width: 100,
-          height: 100,
-        ),
-      )
+      StreamBuilder<AccelerometerEvent>(
+          stream: accelerometerEventStream(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            final event = snapshot.data!;
+            List<double> accelerometerValues = [event.x, event.y, event.z];
+            print(accelerometerValues);
+
+            return Positioned(
+              left: centerX,
+              top: centerY,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.yellowAccent,
+                  shape: BoxShape.circle,
+                ),
+                width: 100,
+                height: 100,
+              ),
+            );
+          })
     ]));
   }
 }
