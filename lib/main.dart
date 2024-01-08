@@ -27,7 +27,7 @@ class SensorApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 가로 모드
+    // 가로 모드 고정
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft, // 허용되는 방향
       DeviceOrientation.landscapeRight,
@@ -53,8 +53,8 @@ class SensorApp extends StatelessWidget {
             print(accelerometerValues);
 
             return Positioned(
-              left: centerX,
-              top: centerY,
+              left: centerX + event.x * 35,
+              top: centerY + event.x * 20,
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.yellowAccent,
